@@ -161,4 +161,4 @@ tmux_set message-style "fg=$TC,bg=$BG"
 tmux_set message-command-style "fg=$TC,bg=$BG"
 
 # Copy mode highlight
-tmux_set mode-style "bg=$TC,fg=$FG"
+tmux_set mode-style "bg=$TC,fg=#f8f8f2"
