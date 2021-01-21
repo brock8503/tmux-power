@@ -29,6 +29,7 @@ time_icon="$(tmux_get '@tmux_power_time_icon' '')"
 date_icon="$(tmux_get '@tmux_power_date_icon' '')"
 show_upload_speed="$(tmux_get @tmux_power_show_upload_speed false)"
 show_download_speed="$(tmux_get @tmux_power_show_download_speed false)"
+show_gcalcli="$(tmux_get @tmux_power_show_gcalcli false)"
 prefix_highlight_pos=$(tmux_get @tmux_power_prefix_highlight_pos)
 # short for Theme-Colour
 TC=$(tmux_get '@tmux_power_theme' 'gold')
@@ -107,6 +108,7 @@ if "$show_upload_speed"; then
 else
     LS="$LS#[fg=$G06,bg=$BG]$right_arrow_icon"
 fi
+
 if [[ $prefix_highlight_pos == 'L' || $prefix_highlight_pos == 'LR' ]]; then
     LS="$LS#{prefix_highlight}"
 fi
@@ -119,6 +121,9 @@ tmux_set status-right-length 150
 RS="#[fg=$TC,bg=$G06] $time_icon %T #[fg=$TC,bg=$G06]$left_arrow_icon#[fg=$G04,bg=$TC] $date_icon %F "
 if "$show_download_speed"; then
     RS="#[fg=$G05,bg=$BG]$left_arrow_icon#[fg=$TC,bg=$G05] $download_speed_icon#{download_speed} #[fg=$G06,bg=$G05]$left_arrow_icon$RS"
+elif "$show_gcalcli"; then
+    wg_next_event="#(gcalcli --military --nostarted agenda --nocolor | cut -d ' ' -f 2- | head -2 | tail -1 | cut -c1-40)"
+    RS="#[fg=$G05,bg=$BG]$left_arrow_icon#[fg=$TC,bg=$G05] $date_icon$wg_next_event #[fg=$G06,bg=$G05]$left_arrow_icon$RS"
 else
     RS="#[fg=$G06,bg=$BG]$left_arrow_icon$RS"
 fi
